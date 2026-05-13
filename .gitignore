@@ -1,0 +1,26 @@
+#Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.venv/
+venv/
+.env
+
+#IDE
+.idea/
+.vscode/
+
+#Airflow runtime files
+logs/*
+!logs/.gitkeep
+
+#Generated ML models
+models/archive/*
+models/production/*
+!models/archive/.gitkeep
+!models/production/.gitkeep
+
+#OS
+.DS_Store
+Thumbs.db
