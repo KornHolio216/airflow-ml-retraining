@@ -23,6 +23,8 @@ services:
       - ./dags:/opt/airflow/dags
       - ./data:/opt/airflow/data
       - ./models:/opt/airflow/models
+      - ./reports:/opt/airflow/reports
+      - ./alerts:/opt/airflow/alerts
     command: version
 
   airflow-webserver:
@@ -38,6 +40,8 @@ services:
       - ./dags:/opt/airflow/dags
       - ./data:/opt/airflow/data
       - ./models:/opt/airflow/models
+      - ./reports:/opt/airflow/reports
+      - ./alerts:/opt/airflow/alerts
     ports:
       - "8080:8080"
     command: webserver
@@ -55,4 +59,6 @@ services:
       - ./dags:/opt/airflow/dags
       - ./data:/opt/airflow/data
       - ./models:/opt/airflow/models
+      - ./reports:/opt/airflow/reports
+      - ./alerts:/opt/airflow/alerts
     command: scheduler

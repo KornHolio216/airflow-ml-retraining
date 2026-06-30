@@ -21,6 +21,12 @@ models/production/*
 !models/archive/.gitkeep
 !models/production/.gitkeep
 
+#Generated reports and alerts
+reports/metrics/*
+alerts/*
+!reports/metrics/.gitkeep
+!alerts/.gitkeep
+
 #OS
 .DS_Store
 Thumbs.db
