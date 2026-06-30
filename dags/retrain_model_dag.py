@@ -58,7 +58,7 @@ def train_model():
         model_path,
     )
 
-    print(f"Model zapisano w: {model_path}")
+    print(f"Model saved to: {model_path}")
 
     return model_path
 
@@ -101,12 +101,12 @@ def validate_model(**context):
     with open(metrics_path, "w", encoding="utf-8") as file:
         json.dump(metrics, file, indent=2)
 
-    print(f"Accuracy nowego modelu: {accuracy}")
-    print(f"Precision nowego modelu: {precision}")
-    print(f"Recall nowego modelu: {recall}")
-    print(f"F1-score nowego modelu: {f1}")
-    print(f"Confusion matrix nowego modelu: {matrix}")
-    print(f"Raport metryk zapisano w: {metrics_path}")
+    print(f"New model accuracy: {accuracy}")
+    print(f"New model precision: {precision}")
+    print(f"New model recall: {recall}")
+    print(f"New model F1-score: {f1}")
+    print(f"New model confusion matrix: {matrix}")
+    print(f"Metrics report saved to: {metrics_path}")
 
     task_instance.xcom_push(key="new_model_path", value=model_path)
     task_instance.xcom_push(key="new_accuracy", value=accuracy)
@@ -143,20 +143,20 @@ def compare_and_promote_model(**context):
     else:
         old_accuracy = 0.0
 
-    print(f"Accuracy starego modelu produkcyjnego: {old_accuracy}")
-    print(f"Accuracy nowego modelu: {new_accuracy}")
-    print(f"Minimalny wymagany accuracy: {MINIMUM_ACCURACY}")
+    print(f"Current production model accuracy: {old_accuracy}")
+    print(f"New model accuracy: {new_accuracy}")
+    print(f"Minimum required accuracy: {MINIMUM_ACCURACY}")
 
     if new_accuracy < MINIMUM_ACCURACY:
         alert_message = (
-            "Nowy model nie spelnia minimalnego progu jakosci. "
-            f"Accuracy: {new_accuracy}, wymagane minimum: {MINIMUM_ACCURACY}."
+            "New model does not meet the minimum quality threshold. "
+            f"Accuracy: {new_accuracy}, required minimum: {MINIMUM_ACCURACY}."
         )
         with open(MODEL_ALERT_PATH, "w", encoding="utf-8") as file:
             file.write(alert_message)
 
         print(alert_message)
-        print(f"Alert zapisano w: {MODEL_ALERT_PATH}")
+        print(f"Alert saved to: {MODEL_ALERT_PATH}")
         return
 
     if new_accuracy > old_accuracy:
@@ -166,9 +166,9 @@ def compare_and_promote_model(**context):
         with open(PRODUCTION_SCORE_PATH, "w", encoding="utf-8") as file:
             file.write(str(new_accuracy))
 
-        print("Nowy model jest lepszy i spelnia prog jakosci. Model zostal wdrozony do produkcji.")
+        print("New model is better and meets the quality threshold. Model promoted to production.")
     else:
-        print("Nowy model nie jest lepszy. Pozostaje tylko w archiwum.")
+        print("New model is not better. It remains in the archive.")
 
 
 default_args = {
@@ -182,7 +182,7 @@ default_args = {
 with DAG(
     dag_id="retrain_model_dag",
     default_args=default_args,
-    description="DAG do re-trenowania modelu ML z walidacja i wdrozeniem",
+    description="DAG for ML model retraining, validation and conditional deployment",
     schedule_interval="@daily",
     start_date=datetime.datetime(2026, 1, 1),
     catchup=False,

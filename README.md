@@ -57,7 +57,7 @@ The DAG is named `retrain_model_dag` and contains three main tasks:
 ## Project Structure
 
 ```text
-lab08_airflow/
+airflow-ml-retraining/
   dags/
     retrain_model_dag.py
   data/
